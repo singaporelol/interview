@@ -39,10 +39,46 @@ async function retrievefornotifications(teacher, notification) {
     }
   }
 }
+const registerHandler = async ctx => {
+  let { teacher, students } = ctx.request.body;
+  let result = await registerStudents(teacher, students);
+  if (result.status) {
+    ctx.response.status = 204;
+  } else {
+    ctx.body = {
+      ...result.data
+    }
+  }
+}
+const commonstudentsHandler = async ctx => {
+  let { teacher } = ctx.request.query;
+  let result = await getCommonStudents(teacher)
+  ctx.body = {
+    ...result
+  }
 
+}
+const suspendHanler = async ctx => {
+  let { student } = ctx.request.body;
+  let result = await suspendStudent(student);
+  if (result.status) {
+    ctx.response.status = 204;
+  } else {
+    ctx.body = {
+      ...result.data
+    }
+  }
+}
+const retrievefornotificationsHandler = async ctx => {
+  let { teacher, notification } = ctx.request.body;
+  let result = await retrievefornotifications(teacher, notification);
+  ctx.body = {
+    ...result
+  }
+}
 module.exports = {
-  registerStudents,
-  retrievefornotifications,
-  suspendStudent,
-  getCommonStudents
+  registerHandler,
+  commonstudentsHandler,
+  suspendHanler,
+  retrievefornotificationsHandler
 }
