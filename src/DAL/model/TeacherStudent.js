@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const seq = require('../DAL/seq');
+const seq = require('../seq');
 const TeacherStudent = seq.define('teacherstudent', {
   id: {
     type: Sequelize.INTEGER,

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const seq = require('../DAL/seq');
+const seq = require('../seq');
 const Teacher = seq.define('teacher', {
   email: {
     type: Sequelize.STRING,

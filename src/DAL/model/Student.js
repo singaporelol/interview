@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const seq = require('../DAL/seq');
+const seq = require('../seq');
 
 //build student model
 const Student = seq.define('student', {

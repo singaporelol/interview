@@ -1,6 +1,10 @@
 const router = require('koa-router')()
-const service = require('../service');
-
+const {
+  retrievefornotifications,
+  suspendStudent,
+  getCommonStudents,
+  registerStudents
+} = require('./../controller')
 router.prefix('/api')
 
 router.get('/', function (ctx, next) {
@@ -20,9 +24,13 @@ router.get('/testjest', (ctx) => {
 router.post('/register', async ctx => {
 
   let { teacher, students } = ctx.request.body;
-  let result = service.registerStudents(teacher, students);
-  if (result) {
+  let result = await registerStudents(teacher, students);
+  if (result.status) {
     ctx.response.status = 204;
+  } else {
+    ctx.body = {
+      ...result.data
+    }
   }
 })
 
@@ -30,31 +38,30 @@ router.post('/register', async ctx => {
 //(i.e. retrieve students who are registered to ALL of the given teachers).
 router.get('/commonstudents', async ctx => {
   let { teacher } = ctx.request.query;
-  let students = await service.getCommonStudents(teacher)
+  let result = await getCommonStudents(teacher)
   ctx.body = {
-    students
+    ...result
   }
 
 })
 //3. As a teacher, I want to suspend a specified student.
 router.post('/suspend', async ctx => {
   let { student } = ctx.request.body;
-  console.log(student)
-  let result = await service.suspendStudent(student);
-  if (result) {
+  let result = await suspendStudent(student);
+  if (result.status) {
     ctx.response.status = 204;
+  } else {
+    ctx.body = {
+      ...result.data
+    }
   }
 })
 //4. 4. As a teacher, I want to retrieve a list of students who can receive a given notification.
 router.post('/retrievefornotifications', async ctx => {
   let { teacher, notification } = ctx.request.body;
-  let notificationArr = notification.split(' @');
-  notificationArr.shift();
-  let result = await service.retrievefornotifications(teacher, notificationArr);
-  if (result.length > 0) {
-    ctx.body = {
-      recipients: result
-    }
+  let result = await retrievefornotifications(teacher, notification);
+  ctx.body = {
+    ...result
   }
 })
 
