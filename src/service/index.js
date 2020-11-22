@@ -37,10 +37,57 @@ async function registerStudents(teacher, students) {
 
 
 }
-async function test(){
+
+
+
+/**
+ * @param {string||Array} teacher
+ * 
+ */
+async function getCommonStudents(teacher) {
+  let studentList = [];
+  if (Array.isArray(teacher)) {
+    let result = await Teacher.findAll({
+      where: {
+        email: {
+          [Sequelize.Op.in]: teacher
+        }
+      },
+      include: Student
+    })
+    // console.log('-----------')
+    // console.log(result)
+    if (result.length > 0) {
+      result.forEach(val => {
+        if (val.students.length > 0) {
+          val.students.forEach(u => {
+            studentList.push(u.email)
+          })
+        }
+      })
+    }
+
+  } else {
+    let result = await Teacher.findOne({
+      where: {
+        email: teacher
+      },
+      include: Student
+    })
+    if (result && result.students.length > 0) {
+      result.students.forEach(val=>{
+        studentList.push(val.email)
+      })
+    }
+  }
+  return studentList;
+
+}
+async function test() {
   return false;
 }
 module.exports = {
   registerStudents,
+  getCommonStudents,
   test
 }
