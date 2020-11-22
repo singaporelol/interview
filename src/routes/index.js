@@ -45,4 +45,19 @@ router.post('/suspend', async ctx => {
     ctx.response.status = 204;
   }
 })
+//4. 4. As a teacher, I want to retrieve a list of students who can receive a given notification.
+router.post('/retrievefornotifications', async ctx => {
+  let { teacher, notification } = ctx.request.body;
+  let notificationArr = notification.split(' @');
+  notificationArr.shift();
+  let result = await service.retrievefornotifications(teacher, notificationArr);
+  if (result.length > 0) {
+    ctx.body = {
+      recipients: result
+    }
+  }
+})
+
+
+
 module.exports = router

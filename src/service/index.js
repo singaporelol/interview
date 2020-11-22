@@ -57,7 +57,7 @@ async function getCommonStudents(teacher) {
     })
     // console.log('-----------')
     // console.log(result)
-    if (result.length > 0) {
+    if (result && result.length > 0) {
       result.forEach(val => {
         if (val.students.length > 0) {
           val.students.forEach(u => {
@@ -104,6 +104,29 @@ async function suspendStudent(student) {
   }
 
 }
+
+/**
+ * @param {string} teacher
+ * @param {Array} student
+ */
+async function retrievefornotifications(teacher, student) {
+  let studentList=[];
+  let result = await Teacher.findOne({
+    where: {
+      email: teacher
+    },
+    include: Student
+  });
+  if (result && result.students.length > 0) {
+    result.students.forEach(val=>{
+      !val.isSuspend && studentList.push(val.email)
+    })
+  }
+  return studentList.concat(student);
+}
+
+
+
 async function test() {
   return false;
 }
@@ -111,5 +134,6 @@ module.exports = {
   registerStudents,
   getCommonStudents,
   suspendStudent,
+  retrievefornotifications,
   test
 }
