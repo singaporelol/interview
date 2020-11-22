@@ -61,7 +61,7 @@ async function getCommonStudents(teacher) {
       result.forEach(val => {
         if (val.students.length > 0) {
           val.students.forEach(u => {
-            studentList.push(u.email)
+            !u.isSuspend && studentList.push(u.email)
           })
         }
       })
@@ -75,12 +75,33 @@ async function getCommonStudents(teacher) {
       include: Student
     })
     if (result && result.students.length > 0) {
-      result.students.forEach(val=>{
-        studentList.push(val.email)
+      result.students.forEach(val => {
+        !val.isSuspend && studentList.push(val.email)
       })
     }
   }
   return studentList;
+
+}
+/**
+ * @param {string} student
+ */
+async function suspendStudent(student) {
+  let studentEntity = await Student.findOne({
+    where: {
+      email: student,
+      isSuspend: false
+    }
+  })
+  if (studentEntity) {
+    let result = await studentEntity.update({
+      isSuspend: true
+    })
+    if (result) return true;
+  }
+  else {
+    return false;
+  }
 
 }
 async function test() {
@@ -89,5 +110,6 @@ async function test() {
 module.exports = {
   registerStudents,
   getCommonStudents,
+  suspendStudent,
   test
 }

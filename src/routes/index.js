@@ -23,20 +23,26 @@ router.post('/register', async ctx => {
   let result = service.registerStudents(teacher, students);
   if (result) {
     ctx.response.status = 204;
-    // ctx.response.status = 200;
   }
-  // ctx.response.body='zhangsan'
-  // console.log('12')
 })
 
 //2. As a teacher, I want to retrieve a list of students common to a given list of teachers 
 //(i.e. retrieve students who are registered to ALL of the given teachers).
 router.get('/commonstudents', async ctx => {
   let { teacher } = ctx.request.query;
-  let students =await service.getCommonStudents(teacher)
+  let students = await service.getCommonStudents(teacher)
   ctx.body = {
     students
   }
 
+})
+//3. As a teacher, I want to suspend a specified student.
+router.post('/suspend', async ctx => {
+  let { student } = ctx.request.body;
+  console.log(student)
+  let result = await service.suspendStudent(student);
+  if (result) {
+    ctx.response.status = 204;
+  }
 })
 module.exports = router
