@@ -13,7 +13,7 @@ const index = require('./routes/index')
 onerror(app)
 
 // middlewares
-app.use(bodyparser({
+app.use(bodyparser({ 
   enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
@@ -24,6 +24,6 @@ app.use(index.routes(), index.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
-});
+})
 
 module.exports = app

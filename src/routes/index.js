@@ -12,13 +12,13 @@ router.get('/', function (ctx, next) {
 })
 
 router.get('/testjest', (ctx) => {
-  let result = true;
+  let result = true
   if (result) {
     ctx.body = {
-      title: 'a'
+      title: 'test'
     }
   }
-});
+})
 
 // 1. As a teacher, I want to register one or more students to a specified teacher.
 router.post('/register', registerHandler)
