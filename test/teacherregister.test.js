@@ -1,5 +1,5 @@
 const server = require('./server');
-const service = require('./../src/service')
+const service = require('../src/service')
 /**
  * @description test teacher register students
  * @author Wei Xueqian

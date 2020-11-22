@@ -4,14 +4,7 @@
  * 
  */
 
-const dbConf = {
-  host: '35.198.251.140',
-  dialect: 'mysql'
-}
-const dbName='Interview';
-const dbUsername='root';
-const dbPassword='Weixueqian1987';
-module.exports={
+module.exports = {
   dbConf,
   dbName,
   dbUsername,
