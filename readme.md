@@ -17,6 +17,7 @@
 >2. npm run dev
 >3. npm run lint (eslint)
 >4. npm run test (unit test)
+>5. api address: http://localhost:3000
 
 ## Work Done
 > 1. Apply a new google account and setup a virtual linux server on google cloud.
